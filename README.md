@@ -3,14 +3,19 @@ partitracker
 
 simple particle filter tracker
 
-Dependencies: OpenCV and Boost serialization
+Dependencies: 
+--------------
+
+OpenCV and Boost serialization
 
 Build:
+--------------
 
-cd build
-cmake ..
-make
+    cd build
+    cmake ..
+    make
 
 Run:
+--------------
 
-./track sequence1.xml
+    ./track sequence1.xml
