@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!DOCTYPE boost_serialization>
+<boost_serialization signature="serialization::archive" version="5">
+<configs class_id="0" tracking_level="1" version="0" object_id="_0">
+	<input_video_path>sequence2.avi</input_video_path>
+	<nparticles>50</nparticles>
+	<nhistbins>16</nhistbins>
+	<lambda>15</lambda>
+	<object_reg_x>140</object_reg_x>
+	<object_reg_y>80</object_reg_y>
+	<object_reg_width>60</object_reg_width>
+	<object_reg_heightc>150</object_reg_height>
+	<visualize>1</visualize>
+	<save_results>1</save_results>
+	<output_video_path>output/tracked2.avi</output_video_path>
+	<output_fps>25</output_fps>
+</configs>
