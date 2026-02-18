@@ -1,7 +1,7 @@
 partitracker
 ============
 
-simple particle filter tracker, originally implemented by Hugo Penedones as an exercise for the Advanced Computer Vision course at EPFL, circa 2010. Recent changes were made with the help of GitHub Copilot (Claude).
+A simple particle filter tracker, originally implemented by Hugo Penedones as an exercise for the Selected Topics in Computer Vision course at EPFL, in 2009. Recent changes were made with the help of GitHub Copilot (Claude).
 
 Dependencies: 
 --------------
