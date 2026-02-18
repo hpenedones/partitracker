@@ -10,10 +10,6 @@
 
 
 
-using namespace std;
-
-
-
  ///  Stores all the necessary parameters of the application (loaded from a XML file)
 class Configs
 {
@@ -24,7 +20,7 @@ class Configs
 public:
 	Configs();
 	
-	void generateXMLEmptyTemplate(string filename);
+	void generateXMLEmptyTemplate(std::string filename);
 
 	template<class Archive>
 	void serialize(Archive & ar, const unsigned int version)
@@ -49,7 +45,7 @@ public:
 		
 	}
 	
-	string input_video_path;
+	std::string input_video_path;
 	
 	int nparticles;
 	int nhistbins;
@@ -63,11 +59,11 @@ public:
 	bool visualize;
 	bool save_results;
 
-	string output_video_path;
+	std::string output_video_path;
 	int output_fps;  
 	
 	
 	
 };
 
-#endif 
+#endif

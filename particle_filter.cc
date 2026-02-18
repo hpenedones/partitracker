@@ -1,5 +1,7 @@
 #include <particle_filter.h>
 
+using namespace std;
+
 ParticleFilter::ParticleFilter(size_t nparticles, const DynamicsModel & dynamics_model, const ObservationModel & observation_model, const State & initial_state):
  dynamics_model_(dynamics_model), observation_model_(observation_model), particle_set_(), nparticles_(nparticles)
 {
@@ -107,8 +109,6 @@ void ParticleFilter::UpdateParticleWeights(const IplImage * observation)
 	{
 		double likelihood = observation_model_.Likelihood(observation, particle_set_[i].state());
 		particle_set_[i].set_weight(likelihood);
-
-		// cout  << " i = " << i << " likelihood = " << likelihood << endl;
 	}
 	
 }

@@ -4,14 +4,8 @@
 DynamicsModel::DynamicsModel(int max_x, int max_y):
 max_x_(max_x), max_y_(max_y) 
 {
-	
 	rng_state = cvRNG(0xffffffff);
 	normalValueMat = cvMat( bufferSize, 1, CV_32F, normalValueBuffer );
-	
-	//rng_state.disttype = CV_RAND_NORMAL;
-	// cvRandInit( &rng_state,	0, 1, 0xffffffff, CV_RAND_NORMAL);
-	
-	
 }
 
 DynamicsModel::~DynamicsModel()
@@ -33,10 +27,9 @@ void DynamicsModel::move(Particle & particle)
 	particle.state_.height_ = new_height;
 	particle.state_.width_  = new_width;
 	
-	// Linear dynamical model does not help, because the assumption does not hold in any of the videos
-	
-	int shift_x =  /* particle.state_.speed_x_ */ + cvGetReal1D(&normalValueMat, 2) * max_x_ / 20;
-	int shift_y =  /* particle.state_.speed_y_ */ + cvGetReal1D(&normalValueMat, 3) * max_y_ / 20;
+	// Pure random walk (linear velocity model did not improve tracking on test videos)
+	int shift_x = cvGetReal1D(&normalValueMat, 2) * max_x_ / 20;
+	int shift_y = cvGetReal1D(&normalValueMat, 3) * max_y_ / 20;
 	
 	double new_x = std::min(max_x_ - particle.state_.width_ - 1.0, particle.state_.x_ + shift_x);
 	new_x = std::max(new_x,0.0);

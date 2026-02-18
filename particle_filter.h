@@ -1,3 +1,4 @@
+#include <vector>
 #include <cv.h>
 #include <dynamics_model.h>
 #include <observation_model.h>
@@ -19,7 +20,7 @@ public:
 		
 	void ProcessObservation(const IplImage * observation);
 	
-	vector<CvRect> GetParticleLocations() const;
+	std::vector<CvRect> GetParticleLocations() const;
 	
 	CvRect GetPrediction() const;
 
@@ -35,7 +36,7 @@ private:
 	
 	DynamicsModel 		dynamics_model_;
 	ObservationModel 	observation_model_;	
-	vector<Particle> 	particle_set_;
+	std::vector<Particle> 	particle_set_;
 	
 	size_t nparticles_;
 };

@@ -113,7 +113,10 @@ int main(int argc, char** argv)
 
 			double tt = (double)cvGetTickCount();
 
-			img = cvQueryFrame(capture);		
+			img = cvQueryFrame(capture);
+
+			if (img == NULL)
+				break;
 
 			cvCvtColor(img, img_Lab, CV_BGR2Lab);
 
@@ -126,6 +129,7 @@ int main(int argc, char** argv)
 		}
 	
 
+	cvReleaseImage(&img_Lab);
 	cvReleaseVideoWriter(&writer);
 	cvDestroyWindow("Video");
 	cvReleaseCapture(&capture);

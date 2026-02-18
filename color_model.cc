@@ -18,10 +18,9 @@ void ColorModel::Reset()
 
 void ColorModel::Decompose(CvScalar & pixel, int * x, int * y, int *z) const
 {
-	*x = 0; // pixel.val[0];
+	*x = 0; // L channel (luminance) intentionally ignored for lighting robustness
 	*y = pixel.val[1];
 	*z = pixel.val[2];
-	
 }
 
 
@@ -44,19 +43,6 @@ void ColorModel::AddPixelsColors(const IplImage * image, const CvRect & roi)
 	
 	
 }
-
-// double ColorModel::ColorLikelihood(CvScalar pixel) const
-// {
-// 	int x, y, z;
-// 	
-// 	Decompose(pixel, &x, &y, &z);
-// 	
-// 	return  color_histogram->GetPointProbability( x, y, z);
-// 	
-// }
-
-
-
 
 double ColorModel::DistanceTo(const ColorModel & other_color_model) const
 {

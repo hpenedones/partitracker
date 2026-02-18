@@ -23,8 +23,6 @@ double ObservationModel::Likelihood(const IplImage * image, const State & state 
 	
 	double divergence = object_color_model_.DistanceTo(state_color_model_);
 	double state_likelihood = exp(-lambda_ * divergence);
-	
-//	cout  << " divergence = " << divergence << " state_likelihood = " << state_likelihood << endl;
-	
+
 	return state_likelihood;
 }

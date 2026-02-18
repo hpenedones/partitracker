@@ -32,30 +32,22 @@ void Histogram3D::Init()
 	// kernel density estimation (using a cube of the same dimension as the histogram bins)
 void Histogram3D::AddPoint(int x, int y, int z, double weight)
 {
-
-	if ( !(x>=0 && x<=upper_limit) || !(y>=0 && y<=upper_limit) || !(z>=0 && z<=upper_limit))
-		cout  << " x = " << x << " y = " << y << " z = " << z << " upper_limit = " << upper_limit << endl;
-	
 	assert(x>=0 && x<=upper_limit);
 	assert(y>=0 && y<=upper_limit);
 	assert(z>=0 && z<=upper_limit);
 
-	float inters_mass;
+	int indX[2], indY[2], indZ[2];
+	float fracX[2], fracY[2], fracZ[2];
 
-	int indX[2], indY[2],indZ[2];
-	float fracX[2],fracY[2],fracZ[2];
-
-
-		// find histogram bins coliding with data point
+	// find histogram bins colliding with data point
 	indX[0] = floor(x/bin_size);
-	indX[1] = (x > (indX[0]+0.5)*bin_size) ? indX[0]+1 : indX[0]-1 ;
+	indX[1] = (x > (indX[0]+0.5)*bin_size) ? indX[0]+1 : indX[0]-1;
 
 	indY[0] = floor(y/bin_size);
-	indY[1] = (y > (indY[0]+0.5)*bin_size) ? indY[0]+1 : indY[0]-1 ;
+	indY[1] = (y > (indY[0]+0.5)*bin_size) ? indY[0]+1 : indY[0]-1;
 
 	indZ[0] = floor(z/bin_size);
-	indZ[1] = (z > (indZ[0]+0.5)*bin_size) ? indZ[0]+1 : indZ[0]-1 ;
-
+	indZ[1] = (z > (indZ[0]+0.5)*bin_size) ? indZ[0]+1 : indZ[0]-1;
 
 	fracX[0] = x/bin_size-(min(indX[0], indX[1])+0.5);
 	fracX[1] = 1 - fracX[0];
@@ -66,32 +58,36 @@ void Histogram3D::AddPoint(int x, int y, int z, double weight)
 	fracZ[0] = z/bin_size-(min(indZ[0], indZ[1])+0.5);
 	fracZ[1] = 1 - fracZ[0];
 
-		// compute intersection volume with 3D histogram
+	// collect valid bins with their unnormalized mass contributions
+	int valid_ix[8], valid_iy[8], valid_iz[8];
+	double valid_mass[8];
+	int num_valid = 0;
 	double mass_inside_hist = 0.0;
-	for(int x=0; x<=1; x++)
-		if (indX[x] >= 0 && indX[x] < nbins)
-		for(int y=0;y<=1; y++)
-		if (indY[y] >= 0 && indY[y] < nbins)
-		for(int z=0;z<=1; z++)
-		if(indZ[z] >= 0 && indZ[z] < nbins)
-	{
-		mass_inside_hist += weight*fracX[x]*fracY[y]*fracZ[z];
-	}
-		// add mass to histogram bins according to intersection volumes					
-	for(int x=0; x<=1; x++)
-		if (indX[x] >= 0 && indX[x] < nbins)
-		for(int y=0;y<=1; y++)
-		if (indY[y] >= 0 && indY[y] < nbins)
-		for(int z=0;z<=1; z++)
-		if(indZ[z] >= 0 && indZ[z] < nbins)
-	{
-		inters_mass = weight*fracX[x]*fracY[y]*fracZ[z];
-		hist[indX[x]*nbins*nbins + indY[y]*nbins + indZ[z]] += inters_mass/mass_inside_hist;
-		total_mass += inters_mass/mass_inside_hist;
 
+	for (int ix = 0; ix <= 1; ix++) {
+		if (indX[ix] < 0 || indX[ix] >= nbins) continue;
+		for (int iy = 0; iy <= 1; iy++) {
+			if (indY[iy] < 0 || indY[iy] >= nbins) continue;
+			for (int iz = 0; iz <= 1; iz++) {
+				if (indZ[iz] < 0 || indZ[iz] >= nbins) continue;
+				assert(num_valid < 8);
+				double m = weight * fracX[ix] * fracY[iy] * fracZ[iz];
+				valid_ix[num_valid] = indX[ix];
+				valid_iy[num_valid] = indY[iy];
+				valid_iz[num_valid] = indZ[iz];
+				valid_mass[num_valid] = m;
+				num_valid++;
+				mass_inside_hist += m;
+			}
+		}
 	}
 
-
+	// add mass to histogram bins according to intersection volumes, normalized to unit weight
+	for (int k = 0; k < num_valid; k++) {
+		double normalized = valid_mass[k] / mass_inside_hist;
+		hist[valid_ix[k]*nbins*nbins + valid_iy[k]*nbins + valid_iz[k]] += normalized;
+		total_mass += normalized;
+	}
 }
 
 

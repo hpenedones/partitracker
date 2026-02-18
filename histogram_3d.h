@@ -1,8 +1,5 @@
 #include <algorithm>
-#include <iostream>
 #include <vector>
-
-using namespace std;
 
 class Histogram3D
 {
@@ -32,7 +29,7 @@ private:
 	
 	int upper_limit;
 	int nbins;
-	vector<double> hist;
+	std::vector<double> hist;
 	double total_mass, bin_size;
 
 };

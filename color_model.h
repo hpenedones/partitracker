@@ -8,9 +8,7 @@ public:
 	~ColorModel ();
 
 	void AddPixelsColors(const IplImage * image, const CvRect & roi);
-	
-//	double ColorLikelihood(CvScalar pixel) const;
-	
+
 	double DistanceTo(const ColorModel & other_color_model) const;
 	
 	void Reset();
